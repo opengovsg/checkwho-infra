@@ -1,0 +1,22 @@
+name: Pulumi Up Staging
+
+on:
+  # When a PR is merged into `staging`, trigger `pulumi up`
+  # Do NOT use `push` trigger. That prevents Pulumi action from commenting on the PR.
+  pull_request_target:
+    branches:
+      - staging
+    types:
+      - closed
+
+jobs:
+  up:
+    name: Deploy Staging
+    if: github.event.pull_request.merged == true
+    uses: ./.github/workflows/pulumi-runner.yml
+    with:
+      gh-role-arn: arn:aws:iam::646878943557:role/sk-infra-github-oidc-role-7e7deb4
+      stack-name: sk-infra.staging
+      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-803f20f
+      command: up
+    secrets: inherit

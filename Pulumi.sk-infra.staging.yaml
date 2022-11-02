@@ -1,0 +1,10 @@
+secretsprovider: awskms://cf56d7ec-2a68-45eb-bd1a-8d967711db0c?region=ap-southeast-1
+encryptedkey: AQICAHiyxXV59o97K3tn5Anl4zkctAIW+g4r7XDNYUbKQ71CFQFq1iJ681YV9fxDfsr2QLvGAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMKFwFhsX952lr/uUKAgEQgDultgiCv4oZXYRaGQjeZHIasOkH9LpCIEhYUfLAlWF/Lgvdy0KF7CmAcPi2Zoa3RYPtJCHzCi4Dm0rB6Q==
+config:
+  aws:defaultTags:
+    tags:
+      env: staging
+      project: starter-kit-infra
+      pulumi: "true"
+      team: starter-kit-team
+  aws:region: ap-southeast-1

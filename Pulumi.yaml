@@ -1,0 +1,3 @@
+name: starter-kit-infra
+description: A minimal AWS TypeScript Pulumi program
+runtime: nodejs
