@@ -44,8 +44,8 @@ pulumi up
 
 githubOidcRoleArn=$(pulumi stack output githubOidcRoleArn)
 s3Uri=$(pulumi stack output s3Uri)
-git grep -l 'arn:aws:iam::646878943557:role/sk-infra-github-oidc-role-7e7deb4' | xargs sed -i '' -e 's,arn:aws:iam::646878943557:role/sk-infra-github-oidc-role-7e7deb4,'"$githubOidcRoleArn"',g'
-git grep -l 's3://sk-infra-pulumi-s3-states-bucket-803f20f' | xargs sed -i '' -e 's,s3://sk-infra-pulumi-s3-states-bucket-803f20f,'"$s3Uri"',g'
+git grep -l 'arn:aws:iam::075109709139:role/sk-infra-github-oidc-role-e6eab36' | xargs sed -i '' -e 's,arn:aws:iam::075109709139:role/sk-infra-github-oidc-role-e6eab36,'"$githubOidcRoleArn"',g'
+git grep -l 's3://sk-infra-pulumi-s3-states-bucket-0f5edcd' | xargs sed -i '' -e 's,s3://sk-infra-pulumi-s3-states-bucket-0f5edcd,'"$s3Uri"',g'
 git grep -l 'sk-infra.staging' | xargs sed -i '' -e 's/sk-infra.staging/your-project-short-name.staging/g'
 
 

@@ -15,8 +15,8 @@ jobs:
     if: github.event.pull_request.merged == true
     uses: ./.github/workflows/pulumi-runner.yml
     with:
-      gh-role-arn: arn:aws:iam::646878943557:role/sk-infra-github-oidc-role-7e7deb4
+      gh-role-arn: arn:aws:iam::075109709139:role/sk-infra-github-oidc-role-e6eab36
       stack-name: sk-infra.staging
-      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-803f20f
+      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
       command: up
     secrets: inherit

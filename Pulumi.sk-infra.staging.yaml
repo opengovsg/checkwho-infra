@@ -1,5 +1,5 @@
-secretsprovider: awskms://cf56d7ec-2a68-45eb-bd1a-8d967711db0c?region=ap-southeast-1
-encryptedkey: AQICAHiyxXV59o97K3tn5Anl4zkctAIW+g4r7XDNYUbKQ71CFQFq1iJ681YV9fxDfsr2QLvGAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMKFwFhsX952lr/uUKAgEQgDultgiCv4oZXYRaGQjeZHIasOkH9LpCIEhYUfLAlWF/Lgvdy0KF7CmAcPi2Zoa3RYPtJCHzCi4Dm0rB6Q==
+secretsprovider: awskms://aa945bf4-23d6-43c9-aa25-925736abc2ff?region=ap-southeast-1
+encryptedkey: AQICAHierUk29n2iWgnpgxwu/HCVnZrVgyu3wXtMi1PW1DuyMgEr0nByUhyoSwBt++r7y1xXAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMvUTdG3d8XS4xQ8UcAgEQgDsO+xQerJxpOO0dcLj0DuVuqCdmoLMcA2Gv9MBgk5Jg9lH25Nn9TChdC9uijrA132oNqZolHu41sG+4dg==
 config:
   aws:defaultTags:
     tags:
