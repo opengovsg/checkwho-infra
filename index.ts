@@ -38,7 +38,14 @@ const cfValidatedCert = new CfValidatedCert(name, {
   domainName,
 })
 
-const ecr = new aws.ecr.Repository(name)
+const ecr = new aws.ecr.Repository(
+  name,
+  { name },
+  {
+    // must delete before replace, otherwise the specified ECR name above will cause conflict
+    deleteBeforeReplace: true,
+  },
+)
 export const ecrUri = ecr.repositoryUrl
 
 const ecs = new Ecs(
