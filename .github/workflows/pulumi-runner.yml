@@ -67,3 +67,4 @@ jobs:
           stack-name: ${{ inputs.stack-name }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_BETA_GOV_SG_TOKEN }}
+          DATADOG_API_KEY: ${{ secrets.DD_API_KEY_GITHUB_ACTIONS }}

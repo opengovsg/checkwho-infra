@@ -134,3 +134,16 @@ const appSessionSecret = new aws.ssm.Parameter(
     deleteBeforeReplace: true,
   },
 )
+
+const datadogApiKey = new aws.ssm.Parameter(
+  `${name}-datadog-api-key`,
+  {
+    name: `${name}-datadog-api-key`,
+    type: 'SecureString',
+    value: process.env.DATADOG_API_KEY,
+  },
+  {
+    // must delete before replace, otherwise the specified API key secret name above will cause conflict
+    deleteBeforeReplace: true,
+  },
+)
