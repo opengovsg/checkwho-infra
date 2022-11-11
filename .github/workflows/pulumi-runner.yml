@@ -1,6 +1,9 @@
 on:
   workflow_call:
     inputs:
+      comment-on-pr:
+        required: true
+        type: boolean
       gh-role-arn:
         required: true
         type: string
@@ -58,7 +61,7 @@ jobs:
         with:
           cloud-url: ${{ inputs.s3-bucket-uri }}
           command: ${{ inputs.command }}
-          comment-on-pr: true
+          comment-on-pr: ${{ inputs.comment-on-pr }}
           edit-pr-comment: false
           refresh: true
           stack-name: ${{ inputs.stack-name }}
