@@ -11,6 +11,7 @@ import {
 import * as aws from '@pulumi/aws'
 import * as cf from '@pulumi/cloudflare'
 import * as pulumi from '@pulumi/pulumi'
+import * as random from '@pulumi/random'
 
 // Cloudflare Zone ID for beta.gov.sg
 const CF_BETA_GOV_SG_ZONE_ID = '44d3a0d87e778b6d1a53cb8ef882bd32'
@@ -38,7 +39,14 @@ const cfValidatedCert = new CfValidatedCert(name, {
   domainName,
 })
 
-const ecr = new aws.ecr.Repository(name)
+const ecr = new aws.ecr.Repository(
+  name,
+  { name },
+  {
+    // must delete before replace, otherwise the specified ECR name above will cause conflict
+    deleteBeforeReplace: true,
+  },
+)
 export const ecrUri = ecr.repositoryUrl
 
 const ecs = new Ecs(
@@ -105,3 +113,16 @@ const allowBastionToRds = new SecurityGroupConnection(
     vpc,
   },
 )
+
+// ================================= Application Secrets ================================
+const appRandomSessionSecret = new random.RandomPassword(
+  `${name}-random-session-secret`,
+  {
+    length: 32,
+    special: true,
+  },
+)
+const appSessionSecret = new aws.ssm.Parameter(`${name}-session-secret`, {
+  type: 'SecureString',
+  value: appRandomSessionSecret.result,
+})
