@@ -122,7 +122,15 @@ const appRandomSessionSecret = new random.RandomPassword(
     special: true,
   },
 )
-const appSessionSecret = new aws.ssm.Parameter(`${name}-session-secret`, {
-  type: 'SecureString',
-  value: appRandomSessionSecret.result,
-})
+const appSessionSecret = new aws.ssm.Parameter(
+  `${name}-session-secret`,
+  {
+    name: `${name}-session-secret`,
+    type: 'SecureString',
+    value: appRandomSessionSecret.result,
+  },
+  {
+    // must delete before replace, otherwise the specified session secret name above will cause conflict
+    deleteBeforeReplace: true,
+  },
+)
