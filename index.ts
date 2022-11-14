@@ -6,6 +6,7 @@ import {
   Rds,
   SecurityGroupConnection,
   SHORT_ENV_MAP,
+  TsTemplatePreset,
   Vpc,
 } from '@opengovsg/pulumi-components'
 import * as aws from '@pulumi/aws'
@@ -114,36 +115,5 @@ const allowBastionToRds = new SecurityGroupConnection(
   },
 )
 
-// ================================= Application Secrets ================================
-const appRandomSessionSecret = new random.RandomPassword(
-  `${name}-random-session-secret`,
-  {
-    length: 32,
-    special: true,
-  },
-)
-const appSessionSecret = new aws.ssm.Parameter(
-  `${name}-session-secret`,
-  {
-    name: `${name}-session-secret`,
-    type: 'SecureString',
-    value: appRandomSessionSecret.result,
-  },
-  {
-    // must delete before replace, otherwise the specified session secret name above will cause conflict
-    deleteBeforeReplace: true,
-  },
-)
-
-const datadogApiKey = new aws.ssm.Parameter(
-  `${name}-datadog-api-key`,
-  {
-    name: `${name}-datadog-api-key`,
-    type: 'SecureString',
-    value: process.env.DATADOG_API_KEY,
-  },
-  {
-    // must delete before replace, otherwise the specified API key secret name above will cause conflict
-    deleteBeforeReplace: true,
-  },
-)
+// ================================= ts-template preset =================================
+const tsTemplatePreset = new TsTemplatePreset(name, {})
