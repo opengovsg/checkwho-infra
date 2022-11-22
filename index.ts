@@ -12,7 +12,6 @@ import {
 import * as aws from '@pulumi/aws'
 import * as cf from '@pulumi/cloudflare'
 import * as pulumi from '@pulumi/pulumi'
-import * as random from '@pulumi/random'
 
 // Cloudflare Zone ID for beta.gov.sg
 const CF_BETA_GOV_SG_ZONE_ID = '44d3a0d87e778b6d1a53cb8ef882bd32'
@@ -42,7 +41,11 @@ const cfValidatedCert = new CfValidatedCert(name, {
 
 const ecr = new aws.ecr.Repository(
   name,
-  { name },
+  {
+    name,
+    // TODO: (temporary) enable forceDelete to make teardown easier
+    forceDelete: true,
+  },
   {
     // must delete before replace, otherwise the specified ECR name above will cause conflict
     deleteBeforeReplace: true,
@@ -82,7 +85,12 @@ const cfMainRecord = new cf.Record(
 )
 
 // ======================================== RDS =========================================
-const rds = new Rds(name, { isProd, vpc })
+const rds = new Rds(name, {
+  // TODO: (temporary) use dangerouslyPrepareForDeletion to make teardown easier
+  dangerouslyPrepareForDeletion: true,
+  isProd,
+  vpc,
+})
 export const psqlCommand = rds.psqlCommand
 
 const allowEcsTaskToRds = new SecurityGroupConnection(
