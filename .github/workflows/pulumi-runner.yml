@@ -23,7 +23,6 @@ on:
 permissions:
   contents: read
   id-token: write
-  packages: read
   pull-requests: write
 
 jobs:
@@ -52,8 +51,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: npm
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: 16
 
       - name: Installing dependencies 📦️
         run: npm install
