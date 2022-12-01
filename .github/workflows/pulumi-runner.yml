@@ -50,11 +50,13 @@ jobs:
       - name: Setup Node LTS ✨
         uses: actions/setup-node@v3
         with:
-          node-version: 16
           cache: npm
+          node-version: 16
 
       - name: Installing dependencies 📦️
         run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Running Pulumi 👀
         uses: pulumi/actions@v3
