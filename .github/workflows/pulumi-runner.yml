@@ -44,17 +44,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup private repo access
-        run: git config --global url."https://${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
-
       - name: Setup Node LTS ✨
         uses: actions/setup-node@v3
         with:
           cache: npm
           node-version: 16
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@opengovsg'
 
       - name: Installing dependencies 📦️
-        run: npm install
+        run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
