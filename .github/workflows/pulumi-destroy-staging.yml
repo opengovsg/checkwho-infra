@@ -7,7 +7,7 @@ on:
 
 jobs:
   up:
-    name: Deploy Staging
+    name: Destroy Staging
     uses: ./.github/workflows/pulumi-runner.yml
     with:
       command: destroy
