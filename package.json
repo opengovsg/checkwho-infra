@@ -21,7 +21,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
-    "@opengovsg/pulumi-components": "^0.2.29",
+    "@opengovsg/pulumi-components": "^0.2.31",
     "@pulumi/aws": "^5.0.0",
     "@pulumi/awsx": "^0.40.0",
     "@pulumi/cloudflare": "^4.12.1",
