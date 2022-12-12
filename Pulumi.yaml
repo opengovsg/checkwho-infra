@@ -1,3 +1,5 @@
 name: starter-kit-infra
 description: A minimal AWS TypeScript Pulumi program
 runtime: nodejs
+backend:
+  url: 's3://sk-infra-pulumi-s3-states-bucket-0f5edcd'
