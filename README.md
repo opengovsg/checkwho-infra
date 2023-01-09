@@ -2,7 +2,13 @@
 
 ## Setup
 
-Read the [first time setup guide](./docs/first-time-setup.md).
+If you are here after running [create-ogp-app](https://github.com/opengovsg/create-ogp-app), you are all good to go! Just wait for the first Github Action run to finish:
+
+![Running CI](/docs/running-ci.png)
+
+This would take ~20 minutes. Once it is done, go to `{shortAppName}-stg.beta.gov.sg` (can be updated at `domainName` in `index.ts` later) to see your app.
+
+If you would prefer to set this up as a raw template, read the [first time setup guide](./docs/first-time-setup.md).
 
 ## Branching
 
