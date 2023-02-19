@@ -88,6 +88,7 @@ const cfMainRecord = new cf.Record(
 const rds = new Rds(name, {
   // TODO: (temporary) use dangerouslyPrepareForDeletion to make teardown easier
   dangerouslyPrepareForDeletion: true,
+  includeSsmSecrets: true,
   isProd,
   vpc,
 })
@@ -99,9 +100,7 @@ const allowEcsTaskToRds = new SecurityGroupConnection(
     description: 'Allow traffic from ECS Task to RDS',
     fromSg: ecs.taskSecurityGroup,
     toSg: rds.securityGroup,
-    fromPort: 5432,
-    toPort: 5432,
-    vpc,
+    port: 5432,
   },
 )
 
@@ -117,9 +116,7 @@ const allowBastionToRds = new SecurityGroupConnection(
     description: 'Allow traffic from Bastion EC2 to RDS',
     fromSg: bastion.securityGroup,
     toSg: rds.securityGroup,
-    fromPort: 5432,
-    toPort: 5432,
-    vpc,
+    port: 5432,
   },
 )
 
