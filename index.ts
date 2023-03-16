@@ -1,44 +1,45 @@
 import {
   Bastion,
-  CfValidatedCert,
   Ecs,
   loadAwsProviderDefaultTags,
   Rds,
   SecurityGroupConnection,
   SHORT_ENV_MAP,
-  TsTemplatePreset,
   Vpc,
 } from '@opengovsg/pulumi-components'
 import * as aws from '@pulumi/aws'
-import * as cf from '@pulumi/cloudflare'
 import * as pulumi from '@pulumi/pulumi'
-
-// Cloudflare Zone ID for beta.gov.sg
-const CF_BETA_GOV_SG_ZONE_ID = '44d3a0d87e778b6d1a53cb8ef882bd32'
 
 export const { env, project, team } = loadAwsProviderDefaultTags()
 export const shortEnv = SHORT_ENV_MAP[env]
 
 // Having env in every name makes multiple env (e.g. prod + stg) in one AWS account possible
-const name = `sk-infra-${shortEnv}`
+const name = `checkwho-${shortEnv}`
 const isProd = shortEnv === 'prod'
 
-const domainName = `${name}.beta.gov.sg`
-export const dnsClickMe = domainName
-
 // ======================================== VPC =========================================
-const vpc = new Vpc(name, {
-  isProd,
-  secondOctet: 16,
-  // enableS3GatewayVpcEndpoint: true,
-})
+const vpc = {
+  /** The CIDR Block of the VPC */
+  cidrBlock: '172.31.0.0/16',
+  /** Compute layer subnet IDs */
+  computeSubnetIds: [
+    'subnet-0570917734a5fffdd',
+    'subnet-040916f0f97a438b9',
+    'subnet-08ace7a856cdc3376',
+  ],
+  /** Edge layer subnet IDs */
+  edgeSubnetIds: [
+    'subnet-03d5251088f8ec500',
+    'subnet-0b4a7ae647a4ed176',
+    'subnet-0f8597adc7ac3b96e',
+  ],
+  /** The ID of the VPC */
+  id: 'vpc-01f8c700692ab5d7f',
+  /** Storage layer subnet IDs */
+  storageSubnetIds: ['subnet-0cebeee035decc118'],
+} as unknown as Vpc
 
 // ========================== ECS (including LB) + CF/ACM cert ==========================
-const cfValidatedCert = new CfValidatedCert(name, {
-  cfZoneId: CF_BETA_GOV_SG_ZONE_ID,
-  domainName,
-})
-
 const ecr = new aws.ecr.Repository(
   name,
   {
@@ -53,72 +54,22 @@ const ecr = new aws.ecr.Repository(
 )
 export const ecrUri = ecr.repositoryUrl
 
-const ecs = new Ecs(
-  name,
-  {
-    loadBalancingArgs: {
-      allowCloudFlareOriginatedTraffic: true,
-      httpsCertificateArn: cfValidatedCert.certificate.arn,
-    },
-    vpc,
+const ecs = new Ecs(name, {
+  loadBalancingArgs: {
+    allowCloudFlareOriginatedTraffic: true,
   },
-  {
-    // Unfortunately dependency in Pulumi doesn't work at the ComponentResource level.
-    // We have to manually state child resource dependency when needed.
-    // This particular dependency makes sure that our ALB will only be created after the HTTPS cert
-    // has been validated, otherwise the cert cannot be issued thus cannot be attached to the ALB.
-    dependsOn: cfValidatedCert.validation,
-  },
-)
-export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
-
-const cfMainRecord = new cf.Record(
-  `${name}-dns-record`,
-  {
-    zoneId: CF_BETA_GOV_SG_ZONE_ID,
-    name: domainName,
-    type: 'CNAME',
-    value: ecs.loadBalancer.dnsName,
-    proxied: true,
-  },
-  { deleteBeforeReplace: true },
-)
-
-// ======================================== RDS =========================================
-const rds = new Rds(name, {
-  // TODO: (temporary) use dangerouslyPrepareForDeletion to make teardown easier
-  dangerouslyPrepareForDeletion: true,
-  includeSsmSecrets: true,
-  isProd,
   vpc,
 })
-export const psqlCommand = rds.psqlCommand
+export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
 
-const allowEcsTaskToRds = new SecurityGroupConnection(
-  `${name}-ecs-task-to-rds`,
-  {
-    description: 'Allow traffic from ECS Task to RDS',
-    fromSg: ecs.taskSecurityGroup,
-    toSg: rds.securityGroup,
-    port: 5432,
-  },
-)
-
-// ======================================= Bastion ======================================
-const publicKey =
-  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDXcnNolVyTz1qniprzPy8WHYg/ChE6ow6ZADCi5DVds blake@open.gov.sg'
-const bastion = new Bastion(name, { vpc, publicKey })
-export const bastionSshCommand = bastion.sshCommand
-
-const allowBastionToRds = new SecurityGroupConnection(
-  `${name}-bastion-to-rds`,
-  {
-    description: 'Allow traffic from Bastion EC2 to RDS',
-    fromSg: bastion.securityGroup,
-    toSg: rds.securityGroup,
-    port: 5432,
-  },
-)
-
-// ================================= ts-template preset =================================
-const tsTemplatePreset = new TsTemplatePreset(name, {})
+// ======================================== RDS =========================================
+// temporarily doesn't work, but bring up ECS first
+// const allowEcsTaskToRds = new SecurityGroupConnection(
+//   `${name}-ecs-task-to-rds`,
+//   {
+//     description: 'Allow traffic from ECS Task to RDS',
+//     fromSg: ecs.taskSecurityGroup,
+//     toSg: rds.securityGroup,
+//     port: 5432,
+//   },
+// )
