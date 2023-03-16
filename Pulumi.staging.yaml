@@ -1,0 +1,10 @@
+secretsprovider: awskms://alias/CheckWho-pulumi-key?region=ap-southeast-1
+encryptedkey: AQICAHj6VGyWFpf1D7Rd/5K0nLvlmHIDE7nLlWGz/MXLQyqg8wEOUzDkYtnPWKZMgX25UsK+AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM+0vPReH6ZSk4z+UkAgEQgDt7r5DW+O4ufD0898mpBjs388ECtQfQfrkH3w9YVKH1Ba0bO6HidhRHZ/PAsjrRDQGlxg0Zqn/VvgOIuQ==
+config:
+  aws:defaultTags:
+    tags:
+      env: staging
+      project: checkwho
+      pulumi: "true"
+      team: checkwho-team
+  aws:region: ap-southeast-1
