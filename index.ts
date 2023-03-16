@@ -57,19 +57,24 @@ export const ecrUri = ecr.repositoryUrl
 const ecs = new Ecs(name, {
   loadBalancingArgs: {
     allowCloudFlareOriginatedTraffic: true,
+    allowOgpVpnOriginatedTraffic: true,
   },
   vpc,
 })
 export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
 
+const rdsSecurityGroup = aws.ec2.SecurityGroup.get(
+  `${name}-rds-sg`,
+  'sg-0dce3b202655e26e0',
+)
 // ======================================== RDS =========================================
 // temporarily doesn't work, but bring up ECS first
-// const allowEcsTaskToRds = new SecurityGroupConnection(
-//   `${name}-ecs-task-to-rds`,
-//   {
-//     description: 'Allow traffic from ECS Task to RDS',
-//     fromSg: ecs.taskSecurityGroup,
-//     toSg: rds.securityGroup,
-//     port: 5432,
-//   },
-// )
+const allowEcsTaskToRds = new SecurityGroupConnection(
+  `${name}-ecs-task-to-rds`,
+  {
+    description: 'Allow traffic from ECS Task to RDS',
+    fromSg: ecs.taskSecurityGroup,
+    toSg: rdsSecurityGroup,
+    port: 5432,
+  },
+)

@@ -1,4 +1,4 @@
-name: starter-kit-infra
+name: checkwho-infra
 description: A minimal AWS TypeScript Pulumi program
 runtime: nodejs
 # where the Pulumi state is stored
