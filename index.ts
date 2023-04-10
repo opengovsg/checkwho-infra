@@ -2,6 +2,7 @@ import {
   Bastion,
   CfValidatedCert,
   Ecs,
+  GithubOidc,
   loadAwsProviderDefaultTags,
   Rds,
   SecurityGroupConnection,
@@ -23,6 +24,16 @@ const cfValidatedCert = new CfValidatedCert(name, {
   cfZoneId: '7f702ea2e13fb4f9cd204be342e080c0',
   domainName: isProd ? 'checkwho.gov.sg' : 'staging.checkwho.gov.sg',
 })
+
+// GitHub OIDC for GitHub repo to talk to AWS
+const oidc = new GithubOidc(name, {
+  repos: ['CheckWho', 'checkwho-infra'],
+  organization: 'opengovsg',
+  roleArgs: {
+    name: `${name}-github-oidc-role`,
+  },
+})
+export const githubOidcRoleArn = oidc.role.arn
 
 // ======================================== VPC =========================================
 const vpc = new Vpc(name, {
