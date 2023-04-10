@@ -1,0 +1,71 @@
+on:
+  workflow_call:
+    inputs:
+      comment-on-pr:
+        required: true
+        type: boolean
+      gh-role-arn:
+        required: true
+        type: string
+      stack-name:
+        required: true
+        type: string
+      s3-bucket-uri:
+        required: true
+        type: string
+      command:
+        required: true
+        type: string
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  pulumi:
+    name: Runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ap-southeast-1
+          role-to-assume: ${{ inputs.gh-role-arn }}
+
+      - name: Print AWS assumed role
+        run: aws sts get-caller-identity
+
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Node LTS ✨
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: 16
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@opengovsg'
+
+      - name: Installing dependencies 📦️
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Running Pulumi 👀
+        uses: pulumi/actions@v3
+        with:
+          cloud-url: ${{ inputs.s3-bucket-uri }}
+          command: ${{ inputs.command }}
+          comment-on-pr: ${{ inputs.comment-on-pr }}
+          edit-pr-comment: false
+          refresh: true
+          stack-name: ${{ inputs.stack-name }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_BETA_GOV_SG_TOKEN }}
+          DATADOG_API_KEY: ${{ secrets.DD_API_KEY_GITHUB_ACTIONS }}

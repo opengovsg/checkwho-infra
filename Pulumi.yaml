@@ -1,0 +1,6 @@
+name: checkwho-infra
+description: A minimal AWS TypeScript Pulumi program
+runtime: nodejs
+# where the Pulumi state is stored
+backend:
+  url: 's3://checkwho-pulumi-s3-states-private-6acfc36'

@@ -1,0 +1,18 @@
+name: Pulumi Preview Staging
+
+on:
+  pull_request:
+    branches:
+      - staging
+
+jobs:
+  preview:
+    name: Preview Staging
+    uses: ./.github/workflows/pulumi-runner.yml
+    with:
+      command: preview
+      comment-on-pr: true
+      gh-role-arn: arn:aws:iam::075109709139:role/sk-infra-github-oidc-role-e6eab36
+      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
+      stack-name: sk-infra.staging
+    secrets: inherit
