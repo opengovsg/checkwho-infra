@@ -114,18 +114,21 @@ const allowBastionToRds = new SecurityGroupConnection(
 
 const params = new SsmParams(name, {
   env: shortEnv,
-  prefix: `${shortEnv}/checkwho`,
-  specs: [
+  configKeyPrefix: `/${shortEnv}/checkwho/`,
+  ssmKeyPrefix: `/${shortEnv}/checkwho/`,
+  plaintextSpecs: [
     // DB
     { key: 'DB_HOST', value: rds.secrets.endpoint },
     { key: 'DB_HOST_REPLICA', value: rds.secrets.readerEndpoint },
     { key: 'DB_NAME', value: rds.secrets.database },
-    {
-      key: 'DB_PASSWORD',
-      secure: true,
-      value: rds.secrets.password,
-    },
+
     { key: 'DB_PORT', value: rds.secrets.port },
     { key: 'DB_USERNAME', value: rds.secrets.username },
+  ],
+  secretSpecs: [
+    {
+      key: 'DB_PASSWORD',
+      value: rds.secrets.password,
+    },
   ],
 })
