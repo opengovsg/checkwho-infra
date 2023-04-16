@@ -8,5 +8,39 @@ config:
       pulumi: "true"
       team: checkwho-team
   aws:region: ap-southeast-1
+  checkwho-infra:/stg/checkwho/ADMIN_KEY_HASH:
+    secure: v1:9XBHk3jmUMBs2uOD:TT2iFgzSAzeXN5mb7h0+1s2vNKfEo+RJOdE8m9SkwUt2rlv45+VDZXHJzLjixUg607BrUV8pUOxli5mt
+  checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_ACCOUNT_SID:
+    secure: v1:21j1gGMM8iSxOJ3o:163Iu1lifhnXloVSVS05ACfjUfAUoqNkARKok4/CbDYq5KWQdwWXhyufS3HuL8cPvG8=
+  checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_API_KEY_SECRET:
+    secure: v1:JI8lMyyixFWdtOIx:2VvAWUdbE6C5BivOx0DQeUp9sa7Qy6GMCSVENPXXPm3qRa2Cm8M9LJkmxSaYm4Sr
+  checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_API_KEY_SID:
+    secure: v1:+GVohUxJBdw7Rh7Z:rQZv8oa8priuZTUgVO/uTJDHxg3n2dH5aU/ThS0e26RQy/nE2TK1IGIblVt2syYPsrk=
+  checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_SENDER_ID:
+    secure: v1:LYC7OITqIGxils7V:AAyaMt1LJIrVCZ38gwtjn3SVbrblTDM=
+  checkwho-infra:/stg/checkwho/GO_API_KEY:
+    secure: v1:aOh87oZfeo77znp2:ABTa6seG6RQlOJ+5O+9s7aI2XQ6NuQsUtQON9hDmo3xv3/ojd40BOD8cVd+dfrX6l/1ag5eldMomQEaE5dUhLS2+46k=
+  checkwho-infra:/stg/checkwho/MOH_TWILIO_ACCOUNT_SID:
+    secure: v1:us9tUCFlEvo+8cw7:h8DJ+ofL2eDUjTpaZPHggyvh2QDABeqJN9TDVJlD7sE9lqD8Eih/zENA2R2aHeSz5Cc=
+  checkwho-infra:/stg/checkwho/MOH_TWILIO_API_KEY_SECRET:
+    secure: v1:Rl0wsw2rfelBijI1:Z9IrExucauH3t43kXRkLTyz8f24SXV5A8jow3I/u8dvlmRh8f7gXYNEzbfUxQhLi
+  checkwho-infra:/stg/checkwho/MOH_TWILIO_API_KEY_SID:
+    secure: v1:BnZih1nByoMZQ8R9:SfXg/1foB9JFx5aBQpxTUEcStNV3DTDu/bro6UtUIqDq/UPqU29srRnhnM6aTRiDN3Q=
+  checkwho-infra:/stg/checkwho/MOH_TWILIO_SENDER_ID:
+    secure: v1:MYN3UHdVFayS4Js+:9lCulCgnkzztzz/2zipvmrIWog==
+  checkwho-infra:/stg/checkwho/OGP_TWILIO_ACCOUNT_SID:
+    secure: v1:7Ev6l2A99dK+5rvZ:zwI1KYQPIzdFww/j8lOIprUHR1pYLFQZ6sqxC1SPaFveYqDjzW2GeYwzU4ocxKaVdok=
+  checkwho-infra:/stg/checkwho/OGP_TWILIO_API_KEY_SECRET:
+    secure: v1:ngStpP8DJVYhNlTC:JvAxCo4pCFEcbh+4nEu0udfU4oTDXommzaVGcRV3AHqxeICiAdQVl8ICogN1YjjC
+  checkwho-infra:/stg/checkwho/OGP_TWILIO_API_KEY_SID:
+    secure: v1:zKPnzpSgRNbOVzXv:zYYlBxpP5gA2lZlyWMKCLDa3f4J5u79TkSRv5WxV3785yNQhFdlu/FGTFgvNV380HAc=
+  checkwho-infra:/stg/checkwho/OGP_TWILIO_SENDER_ID:
+    secure: v1:P4v0YL0Dlpuh1Ykj:NvcH1oVoeD3hgQvbCTRmT3vUsJucfr4=
+  checkwho-infra:/stg/checkwho/POSTMAN_API_KEY:
+    secure: v1:2RsaoIwbk77HL66r:AkRSDwvgZYdMcg3E7YnyFoieYP4cYmtMvlvMewekASdg9aRZzYXhYAL5Oe+Oz0FT5EnV/lLL5vbX+UERurnzmbO9xsGKU2OO
+  checkwho-infra:/stg/checkwho/SGNOTIFY_CLIENT_SECRET:
+    secure: v1:F7L1lZUZVS/ZsFEh:DPTkoERe90sXsrXjv8OgRU8Urzh77exU6AxhO5P771mccvoZxYdFgssUTW1VzizFDH0SGeRs4rpi635yujyyhd5Ql0yE59A2SnAr45AmxGY=
+  checkwho-infra:/stg/checkwho/SGNOTIFY_EC_PRIVATE_KEY:
+    secure: v1:WlIK4DdzjNaY+6w8:75TMRMYocMxM1F6dV2GmIcVbktXnQJZAUju6TkhWEDga0COzGi8mNsEn1fkoF8rdwHFqMJhrjHECfa5uuWG7NrPKMus+wAR0CT0dj9QFnobBWdDCWSYDX1whcmzri+v7H1XkR1RIZKsn7xHcBqd2QiH4qg8fgJThUq139dV/z1fWIB4kX/MpT+yl+9iyUTTjYoNoWJGscbhdqRM8Ua1ALOQT1vi444kdAlV8HZeenCAaQ8d8
   cloudflare:apiToken:
     secure: v1:DuoXwCw/6hjzNw9P:PVYFpiRahqvWLB51NwkqmOYn6Z1GIkrZ1xgH0A4SV/9XSv5ui7KsbhQwinIEO55JwbF4K/Z8Vz0=

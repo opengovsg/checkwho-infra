@@ -12,6 +12,7 @@ import {
 } from '@opengovsg/pulumi-components'
 import * as aws from '@pulumi/aws'
 import * as pulumi from '@pulumi/pulumi'
+import * as random from '@pulumi/random'
 
 export const { env, project, team } = loadAwsProviderDefaultTags()
 export const shortEnv = SHORT_ENV_MAP[env]
@@ -77,6 +78,16 @@ const ecs = new Ecs(
 )
 export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
 
+new aws.cloudwatch.LogGroup(`${name}-logs`, {
+  name: `${name}/ecs/application`, // Matched by log group specified in task definition
+  retentionInDays: 0, // infinity
+})
+
+const sessionSecret = new random.RandomPassword(`${name}-session`, {
+  length: 32,
+  special: true,
+})
+
 // ======================================== RDS =========================================
 const rds = new Rds(name, {
   // TODO: (temporary) use dangerouslyPrepareForDeletion to make teardown easier
@@ -124,11 +135,119 @@ const params = new SsmParams(name, {
 
     { key: 'DB_PORT', value: rds.secrets.port },
     { key: 'DB_USERNAME', value: rds.secrets.username },
+    {
+      key: 'POSTMAN_API_URL',
+      value: 'https://api.postman.gov.sg/v1/transactional/email/send',
+    },
+    {
+      key: 'SGNOTIFY_URL',
+      valueByEnv: {
+        prod: 'https://ntf.singpass.gov.sg',
+        [SsmParams.DEFAULT]: 'https://stg-ntf.singpass.gov.sg',
+      },
+    },
+    {
+      key: 'SGNOTIFY_E_SERVICE_ID',
+      value: 'govtech-checkwho-ntf',
+    },
+    {
+      key: 'SGNOTIFY_CLIENT_ID',
+      valueByEnv: {
+        prod: 'rg0DD2xOUhjDau3HQIDRvQGYtMGx3S5t',
+        stg: 'jvQ98D57rodGeL1zT8C5M7ALdDdiLHeb',
+      },
+    },
+    // todo: determine whether we're actually still using Sentry
+    // need to remove from ecs-task-definition.json if not
+    // {
+    //   key: 'SENTRY_FRONTEND_DSN',
+    //   value:
+    //     'https://0e01dbf810084b62bcab41ee771b68bf@o1200569.ingest.sentry.io/6324633',
+    // },
+    // {
+    //   key: 'SENTRY_BACKEND_DSN',
+    //   value:
+    //     'https://7dcce499b5b94e80b09b733285a69362@o1200569.ingest.sentry.io/6330206',
+    // },
+    {
+      key: 'GO_API_URL',
+      valueByEnv: {
+        stg: 'https://staging.go.gov.sg/api/v1/urls',
+        prod: 'https://go.gov.sg/api/v1/urls',
+      },
+    },
   ],
   secretSpecs: [
     {
       key: 'DB_PASSWORD',
       value: rds.secrets.password,
     },
+    {
+      key: 'SESSION_SECRET',
+      value: sessionSecret.result,
+    },
+    { key: 'POSTMAN_API_KEY', value: SsmParams.FROM_CONFIG },
+    { key: 'ADMIN_KEY_HASH', value: SsmParams.FROM_CONFIG },
+    {
+      key: 'SGNOTIFY_CLIENT_SECRET',
+      valueByEnv: {
+        prod: SsmParams.FROM_CONFIG,
+        stg: SsmParams.FROM_CONFIG,
+      },
+    },
+    {
+      key: 'SGNOTIFY_EC_PRIVATE_KEY',
+      valueByEnv: {
+        prod: SsmParams.FROM_CONFIG,
+        stg: SsmParams.FROM_CONFIG,
+      },
+    },
+    {
+      key: 'GO_API_KEY',
+      valueByEnv: {
+        stg: SsmParams.FROM_CONFIG,
+        prod: SsmParams.FROM_CONFIG,
+      },
+    },
+    {
+      key: 'DEFAULT_TWILIO_ACCOUNT_SID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    { key: 'DEFAULT_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
+    { key: 'DEFAULT_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
+    {
+      key: 'DEFAULT_TWILIO_SENDER_ID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    {
+      key: 'OGP_TWILIO_ACCOUNT_SID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    { key: 'OGP_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
+    { key: 'OGP_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
+    {
+      key: 'OGP_TWILIO_SENDER_ID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    {
+      key: 'MOH_TWILIO_ACCOUNT_SID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    { key: 'MOH_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
+    { key: 'MOH_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
+    {
+      key: 'MOH_TWILIO_SENDER_ID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    // {
+    //   key: 'MOM_TWILIO_ACCOUNT_SID',
+    //   value: SsmParams.FROM_CONFIG,
+    // },
+    // { key: 'MOM_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
+    // { key: 'MOM_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
+    // {
+    //   key: 'MOM_TWILIO_SENDER_ID',
+    //   value: SsmParams.FROM_CONFIG,
+    // },
   ],
 })
