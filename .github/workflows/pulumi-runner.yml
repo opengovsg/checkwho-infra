@@ -10,6 +10,7 @@ on:
       stack-name:
         required: true
         type: string
+      # not in plumber-infra hmm
       s3-bucket-uri:
         required: true
         type: string
@@ -44,6 +45,7 @@ jobs:
         with:
           persist-credentials: false
 
+      # this is just the node version to run the Pulumi commands — not the same as the node version of the actual app
       - name: Setup Node LTS ✨
         uses: actions/setup-node@v3
         with:

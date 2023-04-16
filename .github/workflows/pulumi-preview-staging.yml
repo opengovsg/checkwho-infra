@@ -12,7 +12,8 @@ jobs:
     with:
       command: preview
       comment-on-pr: true
-      gh-role-arn: arn:aws:iam::075109709139:role/sk-infra-github-oidc-role-e6eab36
+      gh-role-arn: arn:aws:iam::138263499957:role/checkwho-stg-github-oidc-role
+      # need to switch this to my bucket?
       s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
       stack-name: sk-infra.staging
     secrets: inherit
