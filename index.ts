@@ -157,18 +157,6 @@ const params = new SsmParams(name, {
         stg: 'jvQ98D57rodGeL1zT8C5M7ALdDdiLHeb',
       },
     },
-    // todo: determine whether we're actually still using Sentry
-    // need to remove from ecs-task-definition.json if not
-    {
-      key: 'SENTRY_FRONTEND_DSN',
-      value:
-        'https://0e01dbf810084b62bcab41ee771b68bf@o1200569.ingest.sentry.io/6324633',
-    },
-    {
-      key: 'SENTRY_BACKEND_DSN',
-      value:
-        'https://7dcce499b5b94e80b09b733285a69362@o1200569.ingest.sentry.io/6330206',
-    },
     {
       key: 'GO_API_URL',
       valueByEnv: {
