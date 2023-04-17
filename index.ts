@@ -27,14 +27,14 @@ const cfValidatedCert = new CfValidatedCert(name, {
 })
 
 // GitHub OIDC for GitHub repo to talk to AWS
-const oidc = new GithubOidc(name, {
-  repos: ['CheckWho', 'checkwho-infra'],
-  organization: 'opengovsg',
-  roleArgs: {
-    name: `${name}-github-oidc-role`,
-  },
-})
-export const githubOidcRoleArn = oidc.role.arn
+// const oidc = new GithubOidc(name, {
+//   repos: ['CheckWho', 'checkwho-infra'],
+//   organization: 'opengovsg',
+//   roleArgs: {
+//     name: `${name}-github-oidc-role`,
+//   },
+// })
+// export const githubOidcRoleArn = oidc.role.arn
 
 // ======================================== VPC =========================================
 const vpc = new Vpc(name, {
@@ -132,7 +132,6 @@ const params = new SsmParams(name, {
     { key: 'DB_HOST', value: rds.secrets.endpoint },
     { key: 'DB_HOST_REPLICA', value: rds.secrets.readerEndpoint },
     { key: 'DB_NAME', value: rds.secrets.database },
-
     { key: 'DB_PORT', value: rds.secrets.port },
     { key: 'DB_USERNAME', value: rds.secrets.username },
     {
