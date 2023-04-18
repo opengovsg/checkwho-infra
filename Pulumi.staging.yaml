@@ -17,7 +17,7 @@ config:
   checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_API_KEY_SID:
     secure: v1:+GVohUxJBdw7Rh7Z:rQZv8oa8priuZTUgVO/uTJDHxg3n2dH5aU/ThS0e26RQy/nE2TK1IGIblVt2syYPsrk=
   checkwho-infra:/stg/checkwho/DEFAULT_TWILIO_SENDER_ID:
-    secure: v1:LYC7OITqIGxils7V:AAyaMt1LJIrVCZ38gwtjn3SVbrblTDM=
+    secure: v1:bGmwLM7zfphoSCmu:gffnVRKQH0nxB1lOAti92fk4/+/Bde0=
   checkwho-infra:/stg/checkwho/GO_API_KEY:
     secure: v1:aOh87oZfeo77znp2:ABTa6seG6RQlOJ+5O+9s7aI2XQ6NuQsUtQON9hDmo3xv3/ojd40BOD8cVd+dfrX6l/1ag5eldMomQEaE5dUhLS2+46k=
   checkwho-infra:/stg/checkwho/MOH_TWILIO_ACCOUNT_SID:
