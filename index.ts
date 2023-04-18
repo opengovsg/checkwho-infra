@@ -55,8 +55,6 @@ const ecr = new aws.ecr.Repository(
   name,
   {
     name,
-    // TODO: (temporary) enable forceDelete to make teardown easier
-    forceDelete: true,
   },
   {
     // must delete before replace, otherwise the specified ECR name above will cause conflict
@@ -84,21 +82,17 @@ const ecs = new Ecs(
   },
 )
 
-// after removing DNS record on Cloudflare for migration on prod
-// remove the if statement and run `pulumi up`
-if (env === 'staging') {
-  const cfMainRecord = new cf.Record(
-    `${name}-dns-record`,
-    {
-      zoneId,
-      name: domainName,
-      type: 'CNAME',
-      value: ecs.loadBalancer.dnsName,
-      proxied: true,
-    },
-    { deleteBeforeReplace: true },
-  )
-}
+const cfMainRecord = new cf.Record(
+  `${name}-dns-record`,
+  {
+    zoneId,
+    name: domainName,
+    type: 'CNAME',
+    value: ecs.loadBalancer.dnsName,
+    proxied: true,
+  },
+  { deleteBeforeReplace: true },
+)
 
 export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
 
@@ -114,8 +108,6 @@ const sessionSecret = new random.RandomPassword(`${name}-session`, {
 
 // ======================================== RDS =========================================
 const rds = new Rds(name, {
-  // TODO: (temporary) use dangerouslyPrepareForDeletion to make teardown easier
-  dangerouslyPrepareForDeletion: true,
   isProd,
   vpc,
 })
