@@ -35,7 +35,7 @@ config:
   checkwho-infra:/prod/checkwho/OGP_TWILIO_API_KEY_SID:
     secure: v1:FYxE+ZLuKKGZdggj:bJnXW4HPM1TZsZrftu/wJSUEt4y20j9+mB82kyYcgxbBdaROdoJDjUEQYESkS9tisRg=
   checkwho-infra:/prod/checkwho/OGP_TWILIO_SENDER_ID:
-    secure: v1:K7yRyp2lFMbZn7al:LLqcKNVZR680OnXvmdmGc0RHpO0ccyo=
+    secure: v1:1tmutA47JFhAntM4:XoYa2Df3IDoXXg21qS+EUiCHvqvgtjM=
   checkwho-infra:/prod/checkwho/POSTMAN_API_KEY:
     secure: v1:m9FhvzjDqKUiJTFz:Jr+aVSdZbfSJCUQqackUCTbYd2CmgAoq/IDPlwUGYPa/C3gbQGJDFD+imz4Ju55rbZFnRfvKngi14gCVanJYvfdig/G+4iwf
   checkwho-infra:/prod/checkwho/SGNOTIFY_CLIENT_SECRET:
