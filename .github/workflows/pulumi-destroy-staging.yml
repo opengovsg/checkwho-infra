@@ -1,21 +1,21 @@
-# not in plumber-infra, to remove?
-name: Pulumi Destroy Staging
+# # not in plumber-infra, to remove?
+# name: Pulumi Destroy Staging
 
-on:
-  push:
-    branches:
-      - dangerously-destroy-all-staging-infrastructure
+# on:
+#   push:
+#     branches:
+#       - dangerously-destroy-all-staging-infrastructure
 
-jobs:
-  up:
-    name: Destroy Staging
-    uses: ./.github/workflows/pulumi-runner.yml
-    with:
-      command: destroy
-      comment-on-pr: false
-      gh-role-arn: arn:aws:iam::138263499957:role/checkwho-stg-github-oidc-role
-      # to swap?
-      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
-      # to swap?
-      stack-name: sk-infra.staging
-    secrets: inherit
+# jobs:
+#   up:
+#     name: Destroy Staging
+#     uses: ./.github/workflows/pulumi-runner.yml
+#     with:
+#       command: destroy
+#       comment-on-pr: false
+#       gh-role-arn: arn:aws:iam::138263499957:role/checkwho-stg-github-oidc-role
+#       # to swap?
+#       s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
+#       # to swap?
+#       stack-name: sk-infra.staging
+#     secrets: inherit

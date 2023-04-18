@@ -1,22 +1,22 @@
-name: Pulumi Up Staging
+# name: Pulumi Up Staging
 
-on:
-  push:
-    branches:
-      - staging
+# on:
+#   push:
+#     branches:
+#       - staging
 
-jobs:
-  up:
-    name: Deploy Staging
-    uses: ./.github/workflows/pulumi-runner.yml
-    with:
-      command: up
-      # not in plumber-infra
-      comment-on-pr: false
-      # need to swap out with our own
-      gh-role-arn: arn:aws:iam::138263499957:role/checkwho-stg-github-oidc-role
-      # not in plumber-infra
-      s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
-      # need to swap out with our own
-      stack-name: sk-infra.staging
-    secrets: inherit
+# jobs:
+#   up:
+#     name: Deploy Staging
+#     uses: ./.github/workflows/pulumi-runner.yml
+#     with:
+#       command: up
+#       # not in plumber-infra
+#       comment-on-pr: false
+#       # need to swap out with our own
+#       gh-role-arn: arn:aws:iam::138263499957:role/checkwho-stg-github-oidc-role
+#       # not in plumber-infra
+#       s3-bucket-uri: s3://sk-infra-pulumi-s3-states-bucket-0f5edcd
+#       # need to swap out with our own
+#       stack-name: sk-infra.staging
+#     secrets: inherit
