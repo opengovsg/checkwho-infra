@@ -11,6 +11,7 @@ import {
   Vpc,
 } from '@opengovsg/pulumi-components'
 import * as aws from '@pulumi/aws'
+import * as cf from '@pulumi/cloudflare'
 import * as pulumi from '@pulumi/pulumi'
 import * as random from '@pulumi/random'
 
@@ -20,21 +21,27 @@ export const shortEnv = SHORT_ENV_MAP[env]
 // Having env in every name makes multiple env (e.g. prod + stg) in one AWS account possible
 const name = `checkwho-${shortEnv}`
 const isProd = shortEnv === 'prod'
+const zoneId = '7f702ea2e13fb4f9cd204be342e080c0'
+const domainName = isProd ? 'checkwho.gov.sg' : 'staging.checkwho.gov.sg'
 
 const cfValidatedCert = new CfValidatedCert(name, {
-  cfZoneId: '7f702ea2e13fb4f9cd204be342e080c0',
-  domainName: isProd ? 'checkwho.gov.sg' : 'staging.checkwho.gov.sg',
+  cfZoneId: zoneId,
+  domainName,
 })
 
-// GitHub OIDC for GitHub repo to talk to AWS
-// const oidc = new GithubOidc(name, {
-//   repos: ['CheckWho', 'checkwho-infra'],
-//   organization: 'opengovsg',
-//   roleArgs: {
-//     name: `${name}-github-oidc-role`,
-//   },
-// })
-// export const githubOidcRoleArn = oidc.role.arn
+// only need to set this up once, makes more sense to put it on prod
+export let githubOidcRoleArn: pulumi.Output<string>
+if (env === 'production') {
+  // GitHub OIDC for GitHub repo to talk to AWS
+  const oidc = new GithubOidc(name, {
+    repos: ['CheckWho', 'checkwho-infra'],
+    organization: 'opengovsg',
+    roleArgs: {
+      name: `${name}-github-oidc-role`,
+    },
+  })
+  githubOidcRoleArn = oidc.role.arn
+}
 
 // ======================================== VPC =========================================
 const vpc = new Vpc(name, {
@@ -76,6 +83,23 @@ const ecs = new Ecs(
     dependsOn: cfValidatedCert.validation,
   },
 )
+
+// after removing DNS record on Cloudflare for migration on prod
+// remove the if statement and run `pulumi up`
+if (env === 'staging') {
+  const cfMainRecord = new cf.Record(
+    `${name}-dns-record`,
+    {
+      zoneId,
+      name: domainName,
+      type: 'CNAME',
+      value: ecs.loadBalancer.dnsName,
+      proxied: true,
+    },
+    { deleteBeforeReplace: true },
+  )
+}
+
 export const lbUrl = pulumi.interpolate`${ecs.loadBalancer.dnsName}`
 
 new aws.cloudwatch.LogGroup(`${name}-logs`, {

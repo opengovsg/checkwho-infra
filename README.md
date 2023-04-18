@@ -2,13 +2,11 @@
 
 ## Setup
 
-If you are here after running [create-ogp-app](https://github.com/opengovsg/create-ogp-app), you are all good to go! Just wait for the first Github Action run to finish:
+When creating a new stack, it is helpful to comment out the GitHub OIDC provider in `index.ts`. Not sure whether this is a bug hmm.
 
-![Running CI](/docs/running-ci.png)
+Other issues encountered:
 
-This would take ~20 minutes. Once it is done, go to `{shortAppName}-stg.beta.gov.sg` (can be updated at `domainName` in `index.ts` later) to see your app.
-
-If you would prefer to set this up as a raw template, read the [first time setup guide](./docs/first-time-setup.md).
+- NAT Gateway and Elastic IPs creation failed, because each account can only have 5 Elastic IPs. This is a limit imposed by AWS. To resolve, you could either delete the Elastic IPs in the account, or request for a limit increase.
 
 ## Branching
 
