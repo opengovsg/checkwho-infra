@@ -28,6 +28,14 @@ config:
     secure: v1:BnZih1nByoMZQ8R9:SfXg/1foB9JFx5aBQpxTUEcStNV3DTDu/bro6UtUIqDq/UPqU29srRnhnM6aTRiDN3Q=
   checkwho-infra:/stg/checkwho/MOH_TWILIO_SENDER_ID:
     secure: v1:MYN3UHdVFayS4Js+:9lCulCgnkzztzz/2zipvmrIWog==
+  checkwho-infra:/stg/checkwho/MOM_TWILIO_ACCOUNT_SID:
+    secure: v1:OYLg2Ze/k936zLQ5:Q15OfawVFvUnw84mSBqqXQtCcEE4c9ehZfdCAvjrM+TEjdakE3NUc+dN/FXfQiJCuR0=
+  checkwho-infra:/stg/checkwho/MOM_TWILIO_API_KEY_SECRET:
+    secure: v1:ZdjsLddZE5VO/5Ls:vZ/gIt1IXPK6D615umI1E9aesofJnCn+OqNdIgzXH3zi1+9BDEJsPKnuNP5QqMfk
+  checkwho-infra:/stg/checkwho/MOM_TWILIO_API_KEY_SID:
+    secure: v1:GNkuB7x8ZKVkgLNE:Zo1IpcnMg2NklAvDbQyZjz1kVq+/30eJR4y0XwUxh7B6YfeY2VybzfCZiDaRgB2tA14=
+  checkwho-infra:/stg/checkwho/MOM_TWILIO_SENDER_ID:
+    secure: v1:joacvbD3iKv1fH3t:CJp35gi2Sm0kUaL/eLC+rs14eg==
   checkwho-infra:/stg/checkwho/OGP_TWILIO_ACCOUNT_SID:
     secure: v1:7Ev6l2A99dK+5rvZ:zwI1KYQPIzdFww/j8lOIprUHR1pYLFQZ6sqxC1SPaFveYqDjzW2GeYwzU4ocxKaVdok=
   checkwho-infra:/stg/checkwho/OGP_TWILIO_API_KEY_SECRET:

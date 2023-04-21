@@ -242,15 +242,15 @@ const params = new SsmParams(name, {
       key: 'MOH_TWILIO_SENDER_ID',
       value: SsmParams.FROM_CONFIG,
     },
-    // {
-    //   key: 'MOM_TWILIO_ACCOUNT_SID',
-    //   value: SsmParams.FROM_CONFIG,
-    // },
-    // { key: 'MOM_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
-    // { key: 'MOM_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
-    // {
-    //   key: 'MOM_TWILIO_SENDER_ID',
-    //   value: SsmParams.FROM_CONFIG,
-    // },
+    {
+      key: 'MOM_TWILIO_ACCOUNT_SID',
+      value: SsmParams.FROM_CONFIG,
+    },
+    { key: 'MOM_TWILIO_API_KEY_SID', value: SsmParams.FROM_CONFIG },
+    { key: 'MOM_TWILIO_API_KEY_SECRET', value: SsmParams.FROM_CONFIG },
+    {
+      key: 'MOM_TWILIO_SENDER_ID',
+      value: SsmParams.FROM_CONFIG,
+    },
   ],
 })
