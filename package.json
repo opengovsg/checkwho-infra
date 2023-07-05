@@ -5,7 +5,7 @@
     "@opengovsg/pulumi-components": "^0.2.97",
     "@pulumi/aws": "^5.30.0",
     "@pulumi/cloudflare": "^4.12.1",
-    "@pulumi/pulumi": "^3.0.0"
+    "@pulumi/pulumi": "^3.74.0"
   },
   "devDependencies": {
     "@types/node": "^14",
